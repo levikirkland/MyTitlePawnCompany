@@ -1,0 +1,302 @@
+@page
+@model MyTitlePawnCompany.Pages.Customers.ReferencesModel
+@{
+    ViewData["Title"] = "Customer References";
+}
+
+<style>
+    .references-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .references-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead {
+        background: #f8f9fa;
+        border-bottom: 2px solid #e5e5e5;
+    }
+
+    .table th {
+        font-weight: 600;
+        font-size: 12px;
+        color: #1a1a1a;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 12px;
+        border: none;
+    }
+
+    .table td {
+        padding: 12px;
+        font-size: 13px;
+        color: #666;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        border-color: #1a1a1a;
+        box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+        outline: none;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: #1a1a1a;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #333;
+    }
+
+    .btn-secondary {
+        background: #f0f0f0;
+        color: #1a1a1a;
+    }
+
+    .btn-secondary:hover {
+        background: #e0e0e0;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .btn-danger {
+        background: #f56565;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #e53e3e;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+    }
+
+    .text-danger {
+        color: #c33;
+        font-size: 12px;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .alert {
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .alert-success {
+        background: #e8f5e9;
+        border: 1px solid #c8e6c9;
+        color: #2e7d32;
+    }
+</style>
+
+<div class="references-header">
+    <div class="container-fluid">
+        <h1>References for @Model.Customer?.FirstName @Model.Customer?.LastName</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+
+            <!-- Add Reference Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Add New Reference</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="Add">
+                        <input type="hidden" name="customerId" value="@Model.Customer?.Id" />
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Reference.ReferenceName" class="form-label">Reference Name *</label>
+                                <input asp-for="Reference.ReferenceName" class="form-control" required />
+                                <span asp-validation-for="Reference.ReferenceName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Reference.Relationship" class="form-label">Relationship *</label>
+                                <input asp-for="Reference.Relationship" class="form-control" placeholder="e.g., Friend, Family, Employer" required />
+                                <span asp-validation-for="Reference.Relationship" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Reference.Address" class="form-label">Address</label>
+                            <input asp-for="Reference.Address" class="form-control" />
+                            <span asp-validation-for="Reference.Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Reference.PhoneNumber" class="form-label">Phone Number *</label>
+                                <input asp-for="Reference.PhoneNumber" class="form-control" required />
+                                <span asp-validation-for="Reference.PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Reference.Email" class="form-label">Email</label>
+                                <input asp-for="Reference.Email" type="email" class="form-control" />
+                                <span asp-validation-for="Reference.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary">Add Reference</button>
+                            <a asp-page="/Customers/Details" asp-route-id="@Model.Customer?.Id" class="btn btn-secondary">Back to Customer</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- References Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>References on File</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.References.Count > 0)
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Relationship</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var reference in Model.References)
+                                {
+                                    <tr>
+                                        <td><strong>@reference.ReferenceName</strong></td>
+                                        <td>@reference.Relationship</td>
+                                        <td>@reference.PhoneNumber</td>
+                                        <td>@reference.Address</td>
+                                        <td>@reference.Email</td>
+                                        <td>
+                                            <form method="post" asp-page-handler="Delete" style="display: inline;">
+                                                <input type="hidden" name="id" value="@reference.Id" />
+                                                <input type="hidden" name="customerId" value="@Model.Customer?.Id" />
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="no-data">
+                            <p>No references on file. Add one using the form above.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

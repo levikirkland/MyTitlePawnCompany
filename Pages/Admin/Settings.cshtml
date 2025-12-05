@@ -1,0 +1,235 @@
+@page
+@model MyTitlePawnCompany.Pages.Admin.SettingsModel
+@{
+    ViewData["Title"] = "Company Settings";
+}
+
+<style>
+    .settings-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .settings-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        border-color: #1a1a1a;
+        box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+        outline: none;
+    }
+
+    .form-text {
+        font-size: 12px;
+        color: #999;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .text-danger {
+        color: #c33;
+        font-size: 12px;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .btn-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+    }
+
+    .btn-secondary {
+        background: #f0f0f0;
+        color: #1a1a1a;
+    }
+
+    .btn-secondary:hover {
+        background: #e0e0e0;
+    }
+
+    .alert {
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .alert-success {
+        background: #e8f5e9;
+        border: 1px solid #c8e6c9;
+        color: #2e7d32;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .section-info {
+        background: #f0f7ff;
+        border: 1px solid #b3d9ff;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 12px;
+        color: #333;
+    }
+</style>
+
+<div class="settings-header">
+    <div class="container-fluid">
+        <h1>Company Settings</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Company Information -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Company Information</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Company.Name" class="form-label">Company Name *</label>
+                                <input asp-for="Company.Name" class="form-control" required />
+                                <span asp-validation-for="Company.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Company.Phone" class="form-label">Phone Number</label>
+                                <input asp-for="Company.Phone" class="form-control" />
+                                <span asp-validation-for="Company.Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Company.Address" class="form-label">Address</label>
+                            <input asp-for="Company.Address" class="form-control" />
+                            <span asp-validation-for="Company.Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Company.Email" class="form-label">Email</label>
+                            <input asp-for="Company.Email" type="email" class="form-control" />
+                            <span asp-validation-for="Company.Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Fees Section -->
+                        <div style="border-top: 1px solid #e5e5e5; padding-top: 24px; margin-top: 24px;">
+                            <h5 style="margin-bottom: 16px;">Operating Fees</h5>
+                            
+                            <div class="section-info">
+                                <strong>Title & Key Fees:</strong> This fee is charged on each new loan and covers title transfer and key handling costs.
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Company.TitleAndKeyFee" class="form-label">Title & Key Fee ($) *</label>
+                                <input asp-for="Company.TitleAndKeyFee" type="number" step="0.01" class="form-control" required />
+                                <span class="form-text">Default: $25.00. This amount is deducted from the loan when calculating the approved amount.</span>
+                                <span asp-validation-for="Company.TitleAndKeyFee" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="btn-row">
+                            <button type="submit" class="btn btn-success">Save Settings</button>
+                            <a href="/" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

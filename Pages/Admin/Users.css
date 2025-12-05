@@ -1,0 +1,320 @@
+/* Shared Users Page Styles */
+
+/* Headers */
+.users-header,
+.create-header,
+.edit-header {
+    background: #1a1a1a;
+    color: white;
+    padding: 24px 0;
+    margin-bottom: 32px;
+}
+
+.users-header h1,
+.create-header h1,
+.edit-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* Containers */
+.users-container {
+    max-width: 1280px;
+    padding: 0 24px;
+}
+
+.create-container,
+.edit-container {
+    max-width: 800px;
+    padding: 0 24px;
+}
+
+/* Alerts */
+.alert-success {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert-danger ul {
+    margin-bottom: 0;
+}
+
+/* Card */
+.card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+}
+
+.card-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 16px 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Table Styles (Index page) */
+.card-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.card-body thead {
+    background: #f8f9fa;
+}
+
+.card-body th {
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 2px solid #e5e5e5;
+    text-align: left;
+}
+
+.card-body td {
+    padding: 12px;
+    font-size: 13px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.card-body tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* Forms (Create/Edit pages) */
+.create-container .card-body,
+.edit-container .card-body {
+    padding: 24px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.form-control:focus {
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+    outline: none;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #e5e5e5;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-item input {
+    margin-right: 8px;
+}
+
+.checkbox-item label {
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.form-help-text {
+    color: #666;
+    font-size: 11px;
+    display: block;
+    margin-top: 6px;
+}
+
+/* Buttons */
+.btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+.btn-success {
+    background: #48bb78;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #38a169;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+}
+
+.btn-warning {
+    background: #ed8936;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.btn-warning:hover {
+    background: #dd6b20;
+}
+
+.btn-danger {
+    background: #f56565;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.btn-danger:hover {
+    background: #e53e3e;
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #ccc;
+}
+
+/* Large buttons for forms */
+.form-actions .btn {
+    padding: 10px 20px;
+}
+
+/* Badges */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Store Badges */
+.store-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.store-badge.default {
+    background: #d4edda;
+    color: #155724;
+}
+
+.store-badge.other {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    color: #999;
+    padding: 40px;
+}
+
+.empty-state a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.empty-state a:hover {
+    text-decoration: underline;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}

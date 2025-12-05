@@ -1,0 +1,362 @@
+/* /Pages/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-o25t8djm7e] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-o25t8djm7e] {
+  color: #0077cc;
+}
+
+.btn-primary[b-o25t8djm7e] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-o25t8djm7e], .nav-pills .show > .nav-link[b-o25t8djm7e] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-o25t8djm7e] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-o25t8djm7e] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-o25t8djm7e] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-o25t8djm7e] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-o25t8djm7e] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+/* /Pages/TitlePawns/Details.cshtml.rz.scp.css */
+/* Container width restriction */
+.details-container[b-kp7c2wd3j4] {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* Compact header with reduced spacing */
+.details-header[b-kp7c2wd3j4] {
+    background: #1a1a1a;
+    color: white;
+    padding: 16px 0;
+    margin-bottom: 20px;
+}
+
+.details-header h1[b-kp7c2wd3j4] {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Compact cards with softer background instead of pure white */
+.card[b-kp7c2wd3j4] {
+    background: #fafafa;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin-bottom: 16px;
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover[b-kp7c2wd3j4] {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.card-header[b-kp7c2wd3j4] {
+    background: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 10px 16px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h5[b-kp7c2wd3j4] {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-body[b-kp7c2wd3j4] {
+    padding: 14px 16px;
+}
+
+.card-body p[b-kp7c2wd3j4] {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.card-body p:last-child[b-kp7c2wd3j4] {
+    margin-bottom: 0;
+}
+
+.card-body strong[b-kp7c2wd3j4] {
+    color: #111827;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-right: 12px;
+}
+
+/* Data values with adjusted weight - not too light */
+.card-body p span:last-child[b-kp7c2wd3j4] {
+    text-align: right;
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+/* Compact badges with dark theme colors */
+.badge[b-kp7c2wd3j4] {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Button group with reduced gap */
+.btn-group[b-kp7c2wd3j4] {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Dark monochromatic button theme */
+.btn[b-kp7c2wd3j4] {
+    padding: 7px 14px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+
+/* Secondary (Back/Cancel) - Light Gray */
+.btn-secondary[b-kp7c2wd3j4] {
+    background: #e5e7eb;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.btn-secondary:hover[b-kp7c2wd3j4] {
+    background: #d1d5db;
+    color: #1f2937;
+}
+
+/* Success (Approve/Submit) - Dark Green-Gray */
+.btn-success[b-kp7c2wd3j4] {
+    background: #4b5563;
+    color: white;
+    border-color: #374151;
+}
+
+.btn-success:hover[b-kp7c2wd3j4] {
+    background: #374151;
+}
+
+/* Info (View/Details) - Medium Gray */
+.btn-info[b-kp7c2wd3j4] {
+    background: #6b7280;
+    color: white;
+    border-color: #4b5563;
+}
+
+.btn-info:hover[b-kp7c2wd3j4] {
+    background: #4b5563;
+}
+
+/* Primary (Main Actions) - Dark */
+.btn-primary[b-kp7c2wd3j4] {
+    background: #1f2937;
+    color: white;
+    border-color: #111827;
+}
+
+.btn-primary:hover[b-kp7c2wd3j4] {
+    background: #111827;
+}
+
+/* Warning (Alerts/Late Fees) - Dark Amber */
+.btn-warning[b-kp7c2wd3j4] {
+    background: #92400e;
+    color: white;
+    border-color: #78350f;
+}
+
+.btn-warning:hover[b-kp7c2wd3j4] {
+    background: #78350f;
+}
+
+/* Danger (Delete/Critical) - Dark Red-Gray */
+.btn-danger[b-kp7c2wd3j4] {
+    background: #7f1d1d;
+    color: white;
+    border-color: #991b1b;
+}
+
+.btn-danger:hover[b-kp7c2wd3j4] {
+    background: #991b1b;
+}
+
+/* Compact table styling */
+.table[b-kp7c2wd3j4] {
+    margin: 0;
+    font-size: 12px;
+    background: #fafafa;
+}
+
+.table thead[b-kp7c2wd3j4] {
+    background: #f3f4f6;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.table th[b-kp7c2wd3j4] {
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: none;
+}
+
+.table td[b-kp7c2wd3j4] {
+    padding: 8px 10px;
+    font-size: 12px;
+    color: #4b5563;
+    font-weight: 500;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover[b-kp7c2wd3j4] {
+    background: #f3f4f6;
+}
+
+/* Alert styling with dark theme */
+.alert-success[b-kp7c2wd3j4] {
+    background: #ecfccb;
+    border: 1px solid #a3e635;
+    color: #365314;
+}
+
+.alert-error[b-kp7c2wd3j4] {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #7f1d1d;
+}
+
+.alert-warning[b-kp7c2wd3j4] {
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    color: #78350f;
+}
+
+/* Compact form inputs */
+.form-control[b-kp7c2wd3j4] {
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    background: #fafafa;
+}
+
+.form-control:focus[b-kp7c2wd3j4] {
+    border-color: #6b7280;
+    box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+    background: white;
+}
+
+/* Labels */
+label[b-kp7c2wd3j4] {
+    font-size: 11px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Reduce row margins */
+.row.mb-4[b-kp7c2wd3j4] {
+    margin-bottom: 16px !important;
+}
+
+/* Compact grid for multi-column layouts */
+.compact-grid[b-kp7c2wd3j4] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* Status badge colors - dark theme */
+.badge.bg-success[b-kp7c2wd3j4] {
+    background: #4b5563 !important;
+}
+
+.badge.bg-warning[b-kp7c2wd3j4] {
+    background: #92400e !important;
+    color: white !important;
+}
+
+.badge.bg-info[b-kp7c2wd3j4] {
+    background: #6b7280 !important;
+}
+
+.badge.bg-danger[b-kp7c2wd3j4] {
+    background: #7f1d1d !important;
+}
+
+/* Responsive breakpoint - stack on smaller screens */
+@media (max-width: 1200px) {
+    .compact-grid[b-kp7c2wd3j4] {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .compact-grid[b-kp7c2wd3j4] {
+        grid-template-columns: 1fr;
+    }
+    
+    .details-container[b-kp7c2wd3j4] {
+        padding: 0 20px;
+    }
+}

@@ -1,0 +1,435 @@
+/* 
+   Title Pawn Company - Global Theme
+   Applies to all pages with consistent styling
+*/
+
+/* ========== Global Container ========== */
+.container-fluid {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* ========== Body Background ========== */
+body {
+    background: #f5f5f5;
+    font-weight: 500;
+}
+
+/* ========== Page Headers ========== */
+.details-header,
+.page-header {
+    background: #1a1a1a;
+    color: white;
+    padding: 16px 0;
+    margin-bottom: 20px;
+}
+
+.details-header h1,
+.page-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* ========== Color Palette ========== */
+:root {
+    --color-gray-50: #fafafa;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    
+    --color-success: #4b5563;
+    --color-success-hover: #374151;
+    --color-warning: #92400e;
+    --color-warning-hover: #78350f;
+    --color-danger: #7f1d1d;
+    --color-danger-hover: #991b1b;
+}
+
+/* ========== Card Styling - Compact with Soft Background ========== */
+.card {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-300);
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease;
+    margin-bottom: 16px;
+}
+
+.card:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background: var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-200);
+    padding: 10px 16px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-gray-800);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-body {
+    padding: 14px 16px;
+}
+
+.card-body p {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: var(--color-gray-600);
+    font-weight: 500;
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.card-body p:last-child {
+    margin-bottom: 0;
+}
+
+.card-body strong {
+    color: var(--color-gray-900);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-right: 12px;
+}
+
+.card-body p span:last-child {
+    text-align: right;
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+/* ========== Button Styling ========== */
+.btn {
+    padding: 7px 14px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-group {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Secondary - Light Gray (Back/Cancel) */
+.btn-secondary {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
+    border-color: var(--color-gray-300);
+}
+
+.btn-secondary:hover {
+    background: var(--color-gray-300);
+    color: var(--color-gray-800);
+    text-decoration: none;
+}
+
+/* Success - Dark Gray (Approve/Confirm) */
+.btn-success {
+    background: var(--color-success);
+    color: white;
+    border-color: var(--color-gray-700);
+}
+
+.btn-success:hover {
+    background: var(--color-success-hover);
+    text-decoration: none;
+}
+
+/* Info - Medium Gray (View/Details) */
+.btn-info {
+    background: var(--color-gray-500);
+    color: white;
+    border-color: var(--color-gray-600);
+}
+
+.btn-info:hover {
+    background: var(--color-gray-600);
+    text-decoration: none;
+}
+
+/* Primary - Darkest (Main Actions) */
+.btn-primary {
+    background: var(--color-gray-800);
+    color: white;
+    border-color: var(--color-gray-900);
+}
+
+.btn-primary:hover {
+    background: var(--color-gray-900);
+    text-decoration: none;
+}
+
+/* Warning - Dark Amber (Alerts/Late Fees) */
+.btn-warning {
+    background: var(--color-warning);
+    color: white;
+    border-color: var(--color-warning-hover);
+}
+
+.btn-warning:hover {
+    background: var(--color-warning-hover);
+    text-decoration: none;
+}
+
+/* Danger - Dark Red (Delete/Critical) */
+.btn-danger {
+    background: var(--color-danger);
+    color: white;
+    border-color: var(--color-danger-hover);
+}
+
+.btn-danger:hover {
+    background: var(--color-danger-hover);
+    text-decoration: none;
+}
+
+/* Button Sizes */
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 11px;
+}
+
+.btn-lg {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* ========== Badge Styling ========== */
+.badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    display: inline-block;
+}
+
+.badge.bg-success, 
+.bg-success {
+    background: var(--color-success) !important;
+    color: white !important;
+}
+
+.badge.bg-warning,
+.bg-warning {
+    background: var(--color-warning) !important;
+    color: white !important;
+}
+
+.badge.bg-info,
+.bg-info {
+    background: var(--color-gray-500) !important;
+    color: white !important;
+}
+
+.badge.bg-danger,
+.bg-danger {
+    background: var(--color-danger) !important;
+    color: white !important;
+}
+
+.badge.bg-secondary,
+.bg-secondary {
+    background: var(--color-gray-600) !important;
+    color: white !important;
+}
+
+/* ========== Table Styling ========== */
+.table {
+    font-size: 12px;
+    background: var(--color-gray-50);
+    margin: 0;
+}
+
+.table thead {
+    background: var(--color-gray-100);
+    border-bottom: 2px solid var(--color-gray-200);
+}
+
+.table th {
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-gray-700);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: none;
+}
+
+.table td {
+    padding: 8px 10px;
+    font-size: 12px;
+    color: var(--color-gray-600);
+    font-weight: 500;
+    border-bottom: 1px solid var(--color-gray-100);
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background: var(--color-gray-100);
+}
+
+/* ========== Form Elements ========== */
+.form-control,
+.form-select {
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 5px;
+    background: var(--color-gray-50);
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-gray-500);
+    box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+    background: white;
+    outline: none;
+}
+
+label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ========== Alert Styling ========== */
+.alert {
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.alert-success {
+    background: #ecfccb;
+    border: 1px solid #a3e635;
+    color: #365314;
+}
+
+.alert-warning {
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    color: #78350f;
+}
+
+.alert-danger,
+.alert-error {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #7f1d1d;
+}
+
+.alert-info {
+    background: #e0e7ff;
+    border: 1px solid #a5b4fc;
+    color: #3730a3;
+}
+
+/* ========== Grid Layouts ========== */
+.row.mb-4 {
+    margin-bottom: 16px !important;
+}
+
+.compact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 1200px) {
+    .compact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .compact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .container-fluid {
+        padding: 0 20px;
+    }
+}
+
+/* ========== Utility Classes ========== */
+.text-muted {
+    color: var(--color-gray-500) !important;
+}
+
+.text-dark {
+    color: var(--color-gray-900) !important;
+}
+
+.bg-light {
+    background-color: var(--color-gray-100) !important;
+}
+
+.border {
+    border: 1px solid var(--color-gray-300) !important;
+}
+
+/* ========== Modal/Dropdown Styling ========== */
+.modal-content {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-300);
+}
+
+.modal-header {
+    background: var(--color-gray-100);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dropdown-menu {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-300);
+}
+
+.dropdown-item {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background: var(--color-gray-100);
+}

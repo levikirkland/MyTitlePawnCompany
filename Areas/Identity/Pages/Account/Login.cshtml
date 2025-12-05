@@ -1,0 +1,243 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Pages/Shared/_AuthLayout.cshtml";
+}
+
+<style>
+    body {
+        background: #f8f9fa;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: #f8f9fa;
+    }
+
+    .login-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        max-width: 420px;
+        padding: 48px;
+        border: 1px solid #e5e5e5;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .login-header h1 {
+        font-size: 28px;
+        color: #1a1a1a;
+        margin: 0 0 8px 0;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .login-header p {
+        color: #666;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .form-floating {
+        margin-bottom: 16px;
+    }
+
+    .form-floating > .form-control {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 12px 14px;
+        font-size: 14px;
+        background: white;
+        color: #1a1a1a;
+    }
+
+    .form-floating > .form-control:focus {
+        border-color: #1a1a1a;
+        box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+        background: white;
+    }
+
+    .form-floating > label {
+        color: #666;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .form-check {
+        margin-bottom: 20px;
+    }
+
+    .form-check-input {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .form-check-input:checked {
+        background-color: #1a1a1a;
+        border-color: #1a1a1a;
+    }
+
+    .form-check-label {
+        color: #333;
+        font-size: 13px;
+        cursor: pointer;
+        margin-left: 8px;
+    }
+
+    .btn-login {
+        background: #1a1a1a;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .btn-login:hover {
+        background: #333;
+        color: white;
+        text-decoration: none;
+    }
+
+    .login-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .login-links a {
+        color: #1a1a1a;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .login-links a:hover {
+        color: #666;
+        text-decoration: underline;
+    }
+
+    .divider {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 13px;
+        color: #999;
+    }
+
+    .error-message {
+        background-color: #fee;
+        border: 1px solid #fcc;
+        border-radius: 8px;
+        color: #c33;
+        padding: 12px;
+        margin-bottom: 16px;
+        font-size: 13px;
+    }
+
+    .validation-error {
+        color: #c33;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .register-prompt {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 20px;
+        text-align: center;
+        border: 1px solid #e5e5e5;
+    }
+
+    .register-prompt p {
+        margin: 0 0 8px 0;
+        color: #666;
+        font-size: 13px;
+    }
+
+    .register-prompt a {
+        color: #1a1a1a;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-prompt a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Title Pawn Management</h1>
+            <p>Sign in to your account</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="error-message" role="alert">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="error-message" role="alert"></div>
+
+            <div class="form-floating">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="admin@example.com" />
+                <label asp-for="Input.Email" class="form-label">Email Address</label>
+                <span asp-validation-for="Input.Email" class="validation-error"></span>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="••••••••" />
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <span asp-validation-for="Input.Password" class="validation-error"></span>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="Input.RememberMe" id="rememberMe" />
+                <label class="form-check-label" for="rememberMe">
+                    Remember me on this device
+                </label>
+            </div>
+
+            <button id="login-submit" type="submit" class="btn-login">Sign In</button>
+
+            <div class="login-links">
+                <a asp-page="./ForgotPassword">Forgot your password?</a>
+            </div>
+
+            <div class="register-prompt">
+                <p>Don't have an account?</p>
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create a new account</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,281 @@
+@page
+@model MyTitlePawnCompany.Pages.TitlePawns.ApproveModel
+@{
+    ViewData["Title"] = "Approve Title Pawn";
+}
+
+<style>
+    .approve-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .approve-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-body p {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .card-body p:last-child {
+        margin-bottom: 0;
+    }
+
+    .card-body strong {
+        color: #1a1a1a;
+    }
+
+    .details-alert {
+        background: #f0f7ff;
+        border: 1px solid #b3d9ff;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+
+    .details-alert h5 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0 0 12px 0;
+    }
+
+    .details-alert p {
+        font-size: 13px;
+        color: #333;
+        margin: 0 0 8px 0;
+    }
+
+    .details-alert p:last-child {
+        margin-bottom: 0;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .form-control:focus {
+        border-color: #1a1a1a;
+        box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+    }
+
+    .form-text {
+        font-size: 12px;
+        color: #999;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .text-danger {
+        color: #c33;
+        font-size: 12px;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .btn-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #f0f0f0;
+        color: #1a1a1a;
+    }
+
+    .btn-secondary:hover {
+        background: #e0e0e0;
+        text-decoration: none;
+        color: #1a1a1a;
+    }
+
+    .btn-info {
+        background: #4299e1;
+        color: white;
+    }
+
+    .btn-info:hover {
+        background: #3182ce;
+        text-decoration: none;
+        color: white;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+</style>
+
+<div class="approve-header">
+    <div class="container-fluid">
+        <h1>Approve Title Pawn Request</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Title Pawn Details -->
+            <div class="details-alert">
+                <h5>Title Pawn Request Details</h5>
+                <p><strong>Vehicle:</strong> @Model.TitlePawn?.Vehicle?.Year @Model.TitlePawn?.Vehicle?.Make @Model.TitlePawn?.Vehicle?.Model
+                </p>
+                <p><strong>VIN:</strong> @Model.TitlePawn?.Vehicle?.VIN</p>
+                <p><strong>Requested Amount:</strong> $@Model.TitlePawn?.LoanAmountRequested.ToString("N2")</p>
+                <p><strong>Estimated Vehicle Value:</strong> $@Model.TitlePawn?.Vehicle?.EstimatedValue.ToString("N2")</p>
+                <p><strong>Title & Key Fee:</strong> $@Model.TitleAndKeyFee.ToString("N2")</p>
+                <p><strong>Maximum Allowable Loan (80% of value - fees):</strong> <span style="font-weight: bold; color: #48bb78;">$@Model.MaxLoanAmount.ToString("N2")</span>
+                </p>
+            </div>
+
+            <!-- References Check -->
+            <div class="details-alert" style="@(Model.ReferenceCount < 3 ? "background: #fff3cd; border-color: #ffc107;" : "background: #d4edda; border-color: #28a745;")">
+                <h5>? References Check (@Model.ReferenceCount / 3)</h5>
+                @if (Model.ReferenceCount < 3)
+                {
+                    <p style="color: #856404; margin: 0;">
+                        <strong>?? REQUIRED:</strong> Customer must have 3 references before approval. Currently has @Model.ReferenceCount. 
+                        <a href="/Customers/References?id=@Model.TitlePawn?.Vehicle?.CustomerId" target="_blank" style="color: #0c5460; font-weight: bold;">Add references now</a>
+                    </p>
+                }
+                else
+                {
+                    <p style="color: #155724; margin: 0;">? Customer has all required references</p>
+                }
+            </div>
+
+            <!-- Approval Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Loan Approval Form</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" asp-for="TitlePawn.Id" />
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="ApprovedAmount" class="form-label">Approved Loan Amount ($) *</label>
+                                <input asp-for="ApprovedAmount" type="number" step="0.01" class="form-control"
+                                    required />
+                                <span class="form-text">Maximum: $@Model.MaxLoanAmount.ToString("N2") (80% of vehicle value minus $@Model.TitleAndKeyFee.ToString("N2") fee)</span>
+                                <span asp-validation-for="ApprovedAmount" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="InterestRate" class="form-label">Monthly Interest Rate (%) *</label>
+                                <input asp-for="InterestRate" type="number" step="0.01" class="form-control" required />
+                                <span class="form-text">Monthly rate (e.g., 1.5 for 1.5% per month)</span>
+                                <span asp-validation-for="InterestRate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Contract Signature Checkbox -->
+                        <div class="form-group" style="background: #f8f9fa; padding: 16px; border-radius: 8px; border: 2px solid #ffc107;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <input type="checkbox" asp-for="ContractSigned" id="ContractSigned" style="width: 20px; height: 20px; cursor: pointer;" />
+                                <label for="ContractSigned" style="margin: 0; cursor: pointer; flex: 1;">
+                                    <strong>? Contract has been reviewed and signed by the borrower</strong>
+                                    <br />
+                                    <span style="font-size: 12px; color: #666;">Confirm that the borrower has signed the contract before approval</span>
+                                </label>
+                            </div>
+                            <span asp-validation-for="ContractSigned" class="text-danger"></span>
+                        </div>
+
+                        <div class="btn-row">
+                            <button type="submit" class="btn btn-success">Approve Loan</button>
+                            <a asp-page="./Details" asp-route-id="@Model.TitlePawn?.Id" class="btn btn-secondary">Cancel
+                            </a>
+                            <a asp-page="./Contract" asp-route-id="@Model.TitlePawn?.Id" class="btn btn-info">View
+                                Contract</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

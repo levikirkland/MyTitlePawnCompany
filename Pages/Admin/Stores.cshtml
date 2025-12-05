@@ -1,0 +1,523 @@
+@page
+@model MyTitlePawnCompany.Pages.Admin.StoresModel
+@{
+    ViewData["Title"] = "Store Management";
+}
+
+<style>
+    .stores-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .stores-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: #3b82f6;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #2563eb;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+    }
+
+    .btn-warning {
+        background: #ed8936;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: #dd6b20;
+    }
+
+    .btn-danger {
+        background: #f56565;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #e53e3e;
+    }
+
+    .btn-secondary {
+        background: #e0e0e0;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background: #ccc;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        border-color: #1a1a1a;
+        box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+        outline: none;
+    }
+
+    .table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+    .table thead {
+        background: #f8f9fa;
+        border-bottom: 2px solid #e5e5e5;
+    }
+
+    .table th {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 12px;
+        font-size: 13px;
+        color: #666;
+        border-bottom: 1px solid #e5e5e5;
+        vertical-align: middle;
+    }
+
+    .table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .badge-danger {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .alert {
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .no-stores {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal.active {
+        display: flex;
+    }
+
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 16px;
+    }
+
+    .modal-header h5 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+    }
+
+    .close-btn:hover {
+        color: #1a1a1a;
+    }
+</style>
+
+<div class="stores-header">
+    <div class="container-fluid">
+        <h1>Store Management</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Create Store Modal -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add New Store</h5>
+                <button class="close-btn" onclick="closeModal('createModal')">&times;</button>
+            </div>
+            <form method="post" asp-page-handler="Create">
+                <div class="form-group">
+                    <label class="form-label">Store Name *</label>
+                    <input type="text" name="Store.Name" class="form-control" required />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Store Code *</label>
+                        <input type="text" name="Store.StoreCode" class="form-control" placeholder="e.g., STR-001" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" name="Store.Phone" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="Store.Address" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="Store.Email" class="form-control" />
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">Create Store</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('createModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Store Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Edit Store</h5>
+                <button class="close-btn" onclick="closeModal('editModal')">&times;</button>
+            </div>
+            <form method="post" asp-page-handler="Edit">
+                <input type="hidden" name="Store.Id" id="editStoreId" />
+                
+                <div class="form-group">
+                    <label class="form-label">Store Name *</label>
+                    <input type="text" name="Store.Name" id="editStoreName" class="form-control" required />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Store Code *</label>
+                        <input type="text" name="Store.StoreCode" id="editStoreCode" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" name="Store.Phone" id="editStorePhone" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="Store.Address" id="editStoreAddress" class="form-control" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="Store.Email" id="editStoreEmail" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select name="Store.IsActive" id="editStoreIsActive" class="form-control">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Title & Key Fee</label>
+                    <input type="number" name="Store.TitleAndKeyFee" id="editStoreTitleAndKeyFee" step="0.01" min="0" class="form-control" />
+                </div>
+
+                <hr style="margin: 20px 0; border-color: #e5e5e5;" />
+                <h6 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 700;">Late Fee Accrual Settings</h6>
+
+                <div class="form-group">
+                    <label class="form-label">Late Fee Accrual Time</label>
+                    <select name="Store.LateFeeAccrualHour" id="editLateFeeAccrualHour" class="form-control">
+                        <option value="17">5:00 PM</option>
+                        <option value="18" selected>6:00 PM</option>
+                        <option value="19">7:00 PM</option>
+                        <option value="20">8:00 PM</option>
+                    </select>
+                    <small style="color: #666; font-size: 11px;">Late fees accrue after this time on business days</small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" name="Store.AccrueLateFeesSaturday" id="editAccrueLateFeesSaturday" style="margin-right: 8px;" />
+                            Accrue Late Fees on Saturday
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" name="Store.AccrueLateFeesSunday" id="editAccrueLateFeesSunday" style="margin-right: 8px;" />
+                            Accrue Late Fees on Sunday
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stores Card -->
+    <div class="card">
+        <div class="card-header">
+            <h5>All Stores (@Model.Stores.Count)</h5>
+            <button class="btn btn-success" onclick="openModal('createModal')">+ Add New Store</button>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            @if (Model.Stores.Count > 0)
+            {
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Store Code</th>
+                                <th>Store Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var store in Model.Stores)
+                            {
+                                <tr>
+                                    <td><strong>@store.StoreCode</strong></td>
+                                    <td>@store.Name</td>
+                                    <td>@store.Phone</td>
+                                    <td>@store.Email</td>
+                                    <td>@store.Address</td>
+                                    <td>
+                                        <span class="badge @(store.IsActive ? "badge-success" : "badge-danger")">
+                                            @(store.IsActive ? "Active" : "Inactive")
+                                        </span>
+                                    </td>
+                                    <td>@store.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-primary" 
+                                                    onclick="editStore(@store.Id, '@store.Name.Replace("'", "\\'")','@store.StoreCode', '@store.Phone', '@store.Email', '@store.Address.Replace("'", "\\'")','@store.IsActive.ToString().ToLower()', @store.TitleAndKeyFee, @store.LateFeeAccrualHour, '@store.AccrueLateFeesSaturday.ToString().ToLower()', '@store.AccrueLateFeesSunday.ToString().ToLower()')">
+                                                Edit
+                                            </button>
+                                            <form method="post" asp-page-handler="Delete" asp-route-id="@store.Id" style="display: inline;">
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete store @store.Name?')">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="no-stores">
+                    <p>No stores configured yet. Click "Add New Store" to create one.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.add('active');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
+    }
+
+    function editStore(id, name, storeCode, phone, email, address, isActive, titleAndKeyFee, lateFeeAccrualHour, accrueLateFeesSaturday, accrueLateFeesSunday) {
+        document.getElementById('editStoreId').value = id;
+        document.getElementById('editStoreName').value = name;
+        document.getElementById('editStoreCode').value = storeCode;
+        document.getElementById('editStorePhone').value = phone;
+        document.getElementById('editStoreEmail').value = email;
+        document.getElementById('editStoreAddress').value = address;
+        document.getElementById('editStoreIsActive').value = isActive;
+        document.getElementById('editStoreTitleAndKeyFee').value = titleAndKeyFee;
+        document.getElementById('editLateFeeAccrualHour').value = lateFeeAccrualHour;
+        document.getElementById('editAccrueLateFeesSaturday').checked = accrueLateFeesSaturday === 'true';
+        document.getElementById('editAccrueLateFeesSunday').checked = accrueLateFeesSunday === 'true';
+        openModal('editModal');
+    }
+
+    // Close modals when clicking outside
+    document.querySelectorAll('.modal').forEach(function(modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal(this.id);
+            }
+        });
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

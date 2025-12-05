@@ -1,0 +1,57 @@
+@page
+@model MyTitlePawnCompany.Pages.TitlePawns.IndexModel
+@{
+    ViewData["Title"] = "Title Pawns";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h1>Title Pawns</h1>
+        </div>
+        <div class="col-md-6 text-right">
+            <a asp-page="Create" class="btn btn-primary">Create New Title Pawn</a>
+        </div>
+    </div>
+
+    @if (Model.TitlePawns.Count > 0)
+    {
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Loan Amount</th>
+                    <th>Interest Rate</th>
+                    <th>Status</th>
+                    <th>Balance</th>
+                    <th>Start Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var titlePawn in Model.TitlePawns)
+                {
+                    <tr>
+                        <td>@titlePawn.Vehicle?.Year @titlePawn.Vehicle?.Make @titlePawn.Vehicle?.Model</td>
+                        <td>$@titlePawn.LoanAmountApproved.ToString("N2")</td>
+                        <td>@titlePawn.InterestRate%</td>
+                        <td><span class="badge bg-@(titlePawn.Status == "Active" ? "success" : titlePawn.Status == "Paid Off" ? "info" : "warning")">@titlePawn.Status</span></td>
+                        <td>$@titlePawn.RemainingBalance.ToString("N2")</td>
+                        <td>@titlePawn.LoanStartDate.ToString("MM/dd/yyyy")</td>
+                        <td>
+                            <a asp-page="Details" asp-route-id="@titlePawn.Id" class="btn btn-sm btn-info">View</a>
+                            @if (titlePawn.Status == "Pending")
+                            {
+                                <a asp-page="Approve" asp-route-id="@titlePawn.Id" class="btn btn-sm btn-success">Approve</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">No title pawns found. <a asp-page="Create">Create one now</a></div>
+    }
+</div>

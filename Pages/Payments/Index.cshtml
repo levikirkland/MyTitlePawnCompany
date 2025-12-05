@@ -1,0 +1,307 @@
+@page
+@model MyTitlePawnCompany.Pages.Payments.IndexModel
+@{
+    ViewData["Title"] = "Record Payment - Find Loan";
+}
+
+<style>
+    .search-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .search-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        border-color: #1a1a1a;
+        box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+        outline: none;
+    }
+
+    .form-text {
+        font-size: 12px;
+        color: #999;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: #1a1a1a;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #333;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+    }
+
+    .btn-secondary {
+        background: #f0f0f0;
+        color: #1a1a1a;
+    }
+
+    .btn-secondary:hover {
+        background: #e0e0e0;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+
+    .table {
+        margin: 0;
+        width: 100%;
+    }
+
+    .table thead {
+        background: #f8f9fa;
+        border-bottom: 2px solid #e5e5e5;
+    }
+
+    .table th {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+    }
+
+    .table td {
+        padding: 12px;
+        font-size: 13px;
+        color: #666;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .badge-success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .badge-warning {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+    }
+
+    .search-info {
+        background: #f0f7ff;
+        border: 1px solid #b3d9ff;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+
+    .search-info p {
+        margin: 0;
+        font-size: 13px;
+        color: #333;
+    }
+</style>
+
+<div class="search-header">
+    <div class="container-fluid">
+        <h1>Record Payment - Find Loan</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <!-- Search Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Search for Loan Account</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get">
+                        <div class="form-group">
+                            <label asp-for="SearchQuery" class="form-label">Search by Last Name, Phone Number, or Account Number *</label>
+                            <input asp-for="SearchQuery" class="form-control" placeholder="e.g., Smith, 555-1234, or 12345" />
+                            <span class="form-text">
+                                Enter customer's last name, phone number (555-1234), or account number (Title Pawn ID)
+                            </span>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <a asp-page="/TitlePawns/Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Search Info -->
+            @if (Model.HasSearched && !string.IsNullOrWhiteSpace(Model.SearchQuery))
+            {
+                <div class="search-info">
+                    <p><strong>Search Results:</strong> Found @Model.SearchResults.Count result(s) for "@Model.SearchQuery" (searching by: @Model.SearchType)</p>
+                </div>
+            }
+
+            <!-- Search Results Table -->
+            @if (Model.HasSearched)
+            {
+                @if (Model.SearchResults.Count > 0)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Active Loans - Search Results</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Account #</th>
+                                        <th>Customer Name</th>
+                                        <th>Phone</th>
+                                        <th>Vehicle</th>
+                                        <th>Balance</th>
+                                        <th>Minimum Payment</th>
+                                        <th>Due Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var loan in Model.SearchResults)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>#@loan.Id</strong>
+                                            </td>
+                                            <td>@loan.Vehicle?.Customer?.FirstName @loan.Vehicle?.Customer?.LastName</td>
+                                            <td>@loan.Vehicle?.Customer?.PhoneNumber</td>
+                                            <td>@loan.Vehicle?.Year @loan.Vehicle?.Make @loan.Vehicle?.Model</td>
+                                            <td><strong>${{@loan.RemainingBalance.ToString("N2")}}</strong></td>
+                                            <td>${{@loan.MonthlyPayment.ToString("N2")}}</td>
+                                            <td>@loan.LoanMaturityDate.ToString("MM/dd/yyyy")</td>
+                                            <td>
+                                                <a asp-page="./Create" asp-route-titlePawnId="@loan.Id" class="btn btn-sm btn-success">Record Payment</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="no-results">
+                                <p>
+                                    <strong>No active loans found</strong><br />
+                                    <small>Try searching with a different last name, phone number, or account number.</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

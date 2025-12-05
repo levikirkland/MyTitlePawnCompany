@@ -1,0 +1,387 @@
+@page "{storeId?}"
+@model MyTitlePawnCompany.Pages.Admin.StateRulesModel
+@{
+    ViewData["Title"] = "State Special Rules";
+}
+
+<style>
+    .rules-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .rules-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .store-selector {
+        background: #f0f0f0;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .store-selector select {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+    }
+
+    .btn-warning {
+        background: #ed8936;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: #dd6b20;
+    }
+
+    .btn-danger {
+        background: #f56565;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #e53e3e;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .table thead {
+        background: #f8f9fa;
+    }
+
+    .table th {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-bottom: 2px solid #e5e5e5;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 12px;
+        font-size: 13px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .alert {
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .form-row-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+
+    .rule-card {
+        background: #f9f9f9;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .rule-card h5 {
+        margin: 0 0 12px 0;
+        font-weight: 700;
+    }
+
+    .rule-detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 12px;
+        font-size: 13px;
+    }
+
+    .rule-detail-item {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .rule-detail-label {
+        font-weight: 600;
+        color: #666;
+    }
+
+    .rule-detail-value {
+        color: #333;
+    }
+</style>
+
+<div class="rules-header">
+    <div class="container-fluid">
+        <h1>State Special Rules</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Store Selector -->
+    <div class="store-selector">
+        <form method="get" style="display: flex; gap: 12px; align-items: center;">
+            <label style="font-weight: 600;">Select Store:</label>
+            <select name="storeId" onchange="this.form.submit()">
+                @foreach (var store in Model.Stores)
+                {
+                    if (Model.StoreId == store.Id)
+                    {
+                        <option value="@store.Id" selected>@store.StoreCode - @store.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@store.Id">@store.StoreCode - @store.Name</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+
+    @if (Model.CurrentStore != null)
+    {
+        <!-- Add New Rule -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Add State Special Rule - @Model.CurrentStore.Name</h5>
+                <button class="btn btn-success" onclick="document.getElementById('ruleForm').style.display = 'block'">+ Add Rule</button>
+            </div>
+            <div class="card-body">
+                <div id="ruleForm" style="display: none; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert" style="background: #fee; border: 1px solid #fcc; color: #c33; margin-bottom: 16px;">
+                            <strong>Validation Errors:</strong>
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    <form method="post" asp-page-handler="Create">
+                        <input type="hidden" name="StoreId" value="@Model.StoreId" />
+
+                        <div class="form-group">
+                            <label class="form-label">State *</label>
+                            <select name="Rule.StateCode" class="form-control" required onchange="updateStateName(this)">
+                                <option value="">-- Select State --</option>
+                                <option value="AL" data-state="Alabama">Alabama (AL)</option>
+                                <option value="CA" data-state="California">California (CA)</option>
+                                <option value="CO" data-state="Colorado">Colorado (CO)</option>
+                                <option value="FL" data-state="Florida">Florida (FL)</option>
+                                <option value="GA" data-state="Georgia">Georgia (GA)</option>
+                                <option value="IL" data-state="Illinois">Illinois (IL)</option>
+                                <option value="LA" data-state="Louisiana">Louisiana (LA)</option>
+                                <option value="NV" data-state="Nevada">Nevada (NV)</option>
+                                <option value="NY" data-state="New York">New York (NY)</option>
+                                <option value="TX" data-state="Texas">Texas (TX)</option>
+                                <option value="WA" data-state="Washington">Washington (WA)</option>
+                            </select>
+                            <input type="hidden" name="Rule.StateName" id="stateName" value="" />
+                        </div>
+
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label class="form-label">Initial Period (Days) *</label>
+                                <input type="number" name="Rule.FirstPeriodDays" class="form-control" value="90" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Period Max Rate (%) *</label>
+                                <input type="number" name="Rule.FirstPeriodMaxRate" class="form-control" step="0.01" placeholder="25.00" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">After Period Max Rate (%) *</label>
+                                <input type="number" name="Rule.SubsequentPeriodMaxRate" class="form-control" step="0.01" placeholder="12.50" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Additional Rules & Notes</label>
+                            <textarea name="Rule.AdditionalRules" class="form-control" rows="4" placeholder="Enter any additional regulations or notes specific to this state..."></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 12px;">
+                            <button type="submit" class="btn btn-success">Create Rule</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('ruleForm').style.display = 'none'">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Rules -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Configured State Rules</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Rules.Count > 0)
+                {
+                    @foreach (var rule in Model.Rules)
+                    {
+                        <div class="rule-card">
+                            <h5>@rule.StateName (@rule.StateCode)</h5>
+                            <div class="rule-detail">
+                                <div class="rule-detail-item">
+                                    <span class="rule-detail-label">First @rule.FirstPeriodDays Days:</span>
+                                    <span class="rule-detail-value"><strong>@rule.FirstPeriodMaxRate%</strong> max per 30 days (@(rule.FirstPeriodMaxRate * 12)% annual equivalent)</span>
+                                </div>
+                                <div class="rule-detail-item">
+                                    <span class="rule-detail-label">After @rule.FirstPeriodDays Days:</span>
+                                    <span class="rule-detail-value"><strong>@rule.SubsequentPeriodMaxRate%</strong> max per 30 days (@(rule.SubsequentPeriodMaxRate * 12)% annual equivalent)</span>
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(rule.AdditionalRules))
+                            {
+                                <div style="background: white; padding: 12px; border-radius: 4px; border-left: 3px solid #4299e1; margin: 12px 0;">
+                                    <strong style="color: #4299e1;">Additional Rules:</strong>
+                                    <p style="margin: 8px 0 0 0; font-size: 12px;">@Html.Raw(rule.AdditionalRules.Replace("\n", "<br/>"))</p>
+                                </div>
+                            }
+                            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                                <span class="badge badge-success">Active</span>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@rule.Id" style="display: inline;">
+                                    <input type="hidden" name="StoreId" value="@Model.StoreId" />
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this rule?')">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="text-align: center; color: #999; padding: 20px;">No state special rules configured for this store.</p>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+function updateStateName(select) {
+    const stateNameInput = document.getElementById('stateName');
+    const selectedOption = select.options[select.selectedIndex];
+    stateNameInput.value = selectedOption.getAttribute('data-state') || '';
+}
+</script>

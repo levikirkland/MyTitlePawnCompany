@@ -1,0 +1,208 @@
+@page
+@model MyTitlePawnCompany.Pages.Vendors.CreateModel
+@{
+    ViewData["Title"] = "Add New Vendor";
+}
+
+<style>
+    .vendor-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .vendor-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #e0e0e0;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background: #ccc;
+        color: #333;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .card-body {
+        padding: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    .form-control:focus {
+        border-color: #1a1a1a;
+        box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+        outline: none;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .container-fluid {
+        max-width: 800px;
+        padding: 0 24px;
+    }
+
+    .text-danger {
+        color: #c33;
+        font-size: 12px;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .btn-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+    }
+</style>
+
+<div class="vendor-header">
+    <div class="container-fluid">
+        <h1>Add New Vendor</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h5>Vendor Information</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Vendor.Name" class="form-label">Vendor Name *</label>
+                        <input asp-for="Vendor.Name" class="form-control" required />
+                        <span asp-validation-for="Vendor.Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Vendor.VendorType" class="form-label">Vendor Type *</label>
+                        <select asp-for="Vendor.VendorType" class="form-control" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="Tow Company">Tow Company</option>
+                            <option value="Inspector">Inspector</option>
+                            <option value="Auctioneer">Auctioneer</option>
+                            <option value="Storage Facility">Storage Facility</option>
+                            <option value="Legal Services">Legal Services</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span asp-validation-for="Vendor.VendorType" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Vendor.Phone" class="form-label">Phone</label>
+                        <input asp-for="Vendor.Phone" class="form-control" placeholder="(555) 123-4567" />
+                        <span asp-validation-for="Vendor.Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Vendor.Email" class="form-label">Email</label>
+                        <input asp-for="Vendor.Email" type="email" class="form-control" placeholder="vendor@example.com" />
+                        <span asp-validation-for="Vendor.Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Vendor.Address" class="form-label">Address</label>
+                    <input asp-for="Vendor.Address" class="form-control" placeholder="123 Main St, City, State ZIP" />
+                    <span asp-validation-for="Vendor.Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Vendor.ContactPerson" class="form-label">Contact Person</label>
+                    <input asp-for="Vendor.ContactPerson" class="form-control" placeholder="John Smith" />
+                    <span asp-validation-for="Vendor.ContactPerson" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Vendor.Notes" class="form-label">Notes</label>
+                    <textarea asp-for="Vendor.Notes" class="form-control" rows="3" placeholder="Any additional notes about this vendor..."></textarea>
+                    <span asp-validation-for="Vendor.Notes" class="text-danger"></span>
+                </div>
+
+                <div class="btn-row">
+                    <button type="submit" class="btn btn-success">Add Vendor</button>
+                    <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

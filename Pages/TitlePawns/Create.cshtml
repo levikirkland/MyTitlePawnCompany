@@ -1,0 +1,68 @@
+@page "{vehicleId?}"
+@model MyTitlePawnCompany.Pages.TitlePawns.CreateModel
+@{
+    ViewData["Title"] = "Create Title Pawn";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>Create New Title Pawn</h1>
+
+            @if (Model.Vehicle != null)
+            {
+                <div class="alert alert-info">
+                    Vehicle: @Model.Vehicle.Year @Model.Vehicle.Make @Model.Vehicle.Model (VIN: @Model.Vehicle.VIN)
+                    <br />
+                    Estimated Value: $@Model.Vehicle.EstimatedValue.ToString("N2")
+                </div>
+            }
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <strong>Error creating loan:</strong>
+                    <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <form method="post">
+                <input type="hidden" asp-for="TitlePawn.VehicleId" />
+
+                <div class="mb-3">
+                    <label asp-for="TitlePawn.LoanAmountRequested" class="form-label">Requested Loan Amount ($) *</label>
+                    <input asp-for="TitlePawn.LoanAmountRequested" type="number" step="0.01" class="form-control" required />
+                    <span asp-validation-for="TitlePawn.LoanAmountRequested" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TitlePawn.LoanTermDays" class="form-label">Loan Term (Days) *</label>
+                    <input asp-for="TitlePawn.LoanTermDays" type="number" class="form-control" value="30" required />
+                    <span asp-validation-for="TitlePawn.LoanTermDays" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TitlePawn.ApprovalNotes" class="form-label">Notes</label>
+                    <textarea asp-for="TitlePawn.ApprovalNotes" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="TitlePawn.ApprovalNotes" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Create Title Pawn</button>
+                    <a asp-page="./Index" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

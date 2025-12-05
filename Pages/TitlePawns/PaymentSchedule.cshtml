@@ -1,0 +1,243 @@
+@page
+@model MyTitlePawnCompany.Pages.TitlePawns.PaymentScheduleModel
+
+@{
+    ViewData["Title"] = "Payment Schedule";
+}
+
+<style>
+    .schedule-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .schedule-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .schedule-header p {
+        margin: 8px 0 0 0;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    .loan-summary {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 32px;
+        border: 1px solid #e5e5e5;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 24px;
+    }
+
+    .summary-item {
+        border-right: 1px solid #e5e5e5;
+    }
+
+    .summary-item:last-child {
+        border-right: none;
+    }
+
+    .summary-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    .summary-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .schedule-table {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+        overflow: hidden;
+    }
+
+    .schedule-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .schedule-table thead {
+        background: #f8f9fa;
+        border-bottom: 2px solid #e5e5e5;
+    }
+
+    .schedule-table th {
+        padding: 16px 12px;
+        text-align: right;
+        font-size: 12px;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .schedule-table th:first-child {
+        text-align: left;
+    }
+
+    .schedule-table td {
+        padding: 14px 12px;
+        text-align: right;
+        font-size: 13px;
+        color: #666;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .schedule-table td:first-child {
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .schedule-table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .amount {
+        color: #1a1a1a;
+        font-weight: 600;
+    }
+
+    .balance-zero {
+        color: #48bb78;
+        font-weight: 700;
+    }
+
+    .info-box {
+        background: #f8f9fa;
+        border-left: 4px solid #1a1a1a;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 32px;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .info-box strong {
+        color: #1a1a1a;
+    }
+</style>
+
+<div class="schedule-header">
+    <div class="container-fluid">
+        <h1>Payment Schedule</h1>
+        <p>@Model.TitlePawn?.Vehicle?.Year @Model.TitlePawn?.Vehicle?.Make @Model.TitlePawn?.Vehicle?.Model</p>
+    </div>
+</div>
+
+<div class="container-fluid">
+    @if (Model.TitlePawn == null)
+    {
+        <div class="alert alert-danger">Loan not found</div>
+        return;
+    }
+
+    <!-- Loan Summary -->
+    <div class="loan-summary">
+        <div class="summary-item">
+            <div class="summary-label">Principal Loan Amount</div>
+            <div class="summary-value">$@Model.TitlePawn.LoanAmountApproved.ToString("N2")</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">Monthly Interest Rate</div>
+            <div class="summary-value">@Model.TitlePawn.InterestRate%</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">Monthly Interest Charge</div>
+            <div class="summary-value">$@(Model.TitlePawn.TotalInterestCharged.ToString("N2"))</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label">Minimum Payment</div>
+            <div class="summary-value">$@(Model.TitlePawn.MonthlyPayment.ToString("N2"))</div>
+        </div>
+    </div>
+
+    <!-- Payment Information -->
+    <div class="info-box">
+        <strong>How This Works:</strong><br/>
+        • <strong>Minimum Payment (Interest Only):</strong> Pay just the monthly interest (@Model.TitlePawn.InterestRate% of principal). The loan renews for another 30 days with the same principal amount.<br/>
+        • <strong>Minimum + 5%:</strong> Pay interest plus 5% of the original principal amount. This reduces your balance and gets you closer to payoff.<br/>
+        • <strong>Minimum + 10%:</strong> Pay interest plus 10% of the original principal. This accelerates payoff even faster.<br/>
+        • Each column shows the remaining balance after that payment strategy for the month.
+    </div>
+
+    <!-- Payment Schedule Table -->
+    @if (Model.Schedule.Count > 0)
+    {
+        <div class="schedule-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Due Date</th>
+                        <th>Starting Balance</th>
+                        <th>Monthly Interest</th>
+                        <th colspan="3" style="text-align: center; border-right: 1px solid #e5e5e5;">Payment Amount</th>
+                        <th colspan="3" style="text-align: center;">Ending Balance</th>
+                    </tr>
+                    <tr style="background: #f0f0f0; font-size: 11px;">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Min Only</th>
+                        <th>Min + 5%</th>
+                        <th style="border-right: 1px solid #e5e5e5;">Min + 10%</th>
+                        <th>Min Only</th>
+                        <th>Min + 5%</th>
+                        <th>Min + 10%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Schedule)
+                    {
+                        <tr>
+                            <td><strong>Month @item.Period</strong></td>
+                            <td>@item.PaymentDate.ToString("MM/dd/yyyy")</td>
+                            <td class="amount">$@item.StartingBalance.ToString("N2")</td>
+                            <td class="amount">$@item.MonthlyInterest.ToString("N2")</td>
+                            <td class="amount">$@item.MinimumPayment.ToString("N2")</td>
+                            <td class="amount">$@item.PrincipalPlus5Percent.ToString("N2")</td>
+                            <td class="amount" style="border-right: 1px solid #e5e5e5;">$@item.PrincipalPlus10Percent.ToString("N2")</td>
+                            <td class="amount @(item.EndingBalanceMinimum == 0 ? "balance-zero" : "")">$@item.EndingBalanceMinimum.ToString("N2")</td>
+                            <td class="amount @(item.EndingBalancePlus5 == 0 ? "balance-zero" : "")">$@item.EndingBalancePlus5.ToString("N2")</td>
+                            <td class="amount @(item.EndingBalancePlus10 == 0 ? "balance-zero" : "")">$@item.EndingBalancePlus10.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Summary -->
+        <div class="info-box" style="margin-top: 32px; background: #e8f5e9; border-left-color: #48bb78;">
+            <strong>Summary (Based on @Model.TitlePawn.InterestRate% Monthly Interest):</strong><br/>
+            • Paying <strong>minimum only</strong> ($@Model.TitlePawn.MonthlyPayment.ToString("N2")/month) keeps your principal at $@Model.TitlePawn.LoanAmountApproved.ToString("N2") and renews monthly.<br/>
+            • Paying <strong>minimum + 5%</strong> ($@(Model.TitlePawn.MonthlyPayment + (Model.TitlePawn.LoanAmountApproved * 0.05m)).ToString("N2")/month) pays off the loan in @(Math.Ceiling(Model.TitlePawn.LoanAmountApproved / (Model.TitlePawn.LoanAmountApproved * 0.05m))) months.<br/>
+            • Paying <strong>minimum + 10%</strong> ($@(Model.TitlePawn.MonthlyPayment + (Model.TitlePawn.LoanAmountApproved * 0.10m)).ToString("N2")/month) pays off the loan in @(Math.Ceiling(Model.TitlePawn.LoanAmountApproved / (Model.TitlePawn.LoanAmountApproved * 0.10m))) months.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">No payment schedule available. Please approve the loan first.</div>
+    }
+
+    <div style="margin-top: 32px; margin-bottom: 32px;">
+        <a href="/TitlePawns/Details?id=@Model.TitlePawn?.Id" class="btn btn-secondary">Back to Loan Details</a>
+    </div>
+</div>

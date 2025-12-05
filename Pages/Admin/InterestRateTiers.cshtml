@@ -1,0 +1,339 @@
+@page "{storeId?}"
+@model MyTitlePawnCompany.Pages.Admin.InterestRateTiersModel
+@{
+    ViewData["Title"] = "Interest Rate Tiers";
+}
+
+<style>
+    .tiers-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .tiers-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .store-selector {
+        background: #f0f0f0;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .store-selector select {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+    }
+
+    .btn-warning {
+        background: #ed8936;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: #dd6b20;
+    }
+
+    .btn-danger {
+        background: #f56565;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #e53e3e;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .table thead {
+        background: #f8f9fa;
+    }
+
+    .table th {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-bottom: 2px solid #e5e5e5;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 12px;
+        font-size: 13px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .badge-danger {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .alert {
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+</style>
+
+<div class="tiers-header">
+    <div class="container-fluid">
+        <h1>Interest Rate Tiers</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Store Selector -->
+    <div class="store-selector">
+        <form method="get" style="display: flex; gap: 12px; align-items: center;">
+            <label style="font-weight: 600;">Select Store:</label>
+            <select name="storeId" onchange="this.form.submit()">
+                @foreach (var store in Model.Stores)
+                {
+                    if (Model.StoreId == store.Id)
+                    {
+                        <option value="@store.Id" selected>@store.StoreCode - @store.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@store.Id">@store.StoreCode - @store.Name</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+
+    @if (Model.CurrentStore != null)
+    {
+        <!-- Add New Tier -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Add New Interest Tier - @Model.CurrentStore.Name</h5>
+                <button class="btn btn-success" onclick="document.getElementById('tierForm').style.display = 'block'">+ Add Tier</button>
+            </div>
+            <div class="card-body">
+                <div id="tierForm" style="display: none; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                    <form method="post" asp-page-handler="Create">
+                        <input type="hidden" name="StoreId" value="@Model.StoreId" />
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Tier Name *</label>
+                                <input type="text" name="Tier.TierName" class="form-control" placeholder="e.g., Small Loans" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Display Order</label>
+                                <input type="number" name="Tier.DisplayOrder" class="form-control" value="0" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Minimum Principal ($) *</label>
+                                <input type="number" name="Tier.MinimumPrincipal" class="form-control" step="0.01" placeholder="0.00" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Maximum Principal ($) *</label>
+                                <input type="number" name="Tier.MaximumPrincipal" class="form-control" step="0.01" placeholder="999.99" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Interest Rate (% per 30 days) *</label>
+                                <input type="number" name="Tier.InterestRate" class="form-control" step="0.01" placeholder="1.50" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea name="Tier.Description" class="form-control" rows="3" placeholder="Notes about this tier..."></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 12px;">
+                            <button type="submit" class="btn btn-success">Create Tier</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('tierForm').style.display = 'none'">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Tiers -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Configured Tiers</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Tiers.Count > 0)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tier Name</th>
+                                <th>Principal Range</th>
+                                <th>Interest Rate</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Order</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tier in Model.Tiers)
+                            {
+                                <tr>
+                                    <td><strong>@tier.TierName</strong></td>
+                                    <td>${{@tier.MinimumPrincipal.ToString("N2")}} - ${{{@tier.MaximumPrincipal.ToString("N2")}}}</td>
+                                    <td>@tier.InterestRate%</td>
+                                    <td>@tier.Description</td>
+                                    <td>
+                                        <span class="badge @(tier.IsActive ? "badge-success" : "badge-danger")">
+                                            @(tier.IsActive ? "Active" : "Inactive")
+                                        </span>
+                                    </td>
+                                    <td>@tier.DisplayOrder</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning" onclick="editTier(@tier.Id, '@tier.TierName')">Edit</button>
+                                        <form method="post" asp-page-handler="Delete" asp-route-id="@tier.Id" style="display: inline;">
+                                            <input type="hidden" name="StoreId" value="@Model.StoreId" />
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this tier?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p style="text-align: center; color: #999; padding: 20px;">No interest tiers configured for this store.</p>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function editTier(id, name) {
+        alert('Edit functionality coming soon for: ' + name);
+    }
+</script>

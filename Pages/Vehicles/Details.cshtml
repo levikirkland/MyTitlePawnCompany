@@ -1,0 +1,98 @@
+@page
+@model MyTitlePawnCompany.Pages.Vehicles.DetailsModel
+@{
+    ViewData["Title"] = "Vehicle Details";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <h1>@Model.Vehicle?.Year @Model.Vehicle?.Make @Model.Vehicle?.Model</h1>
+        </div>
+        <div class="col-md-4 text-right">
+            <a asp-page="/Customers/Details" asp-route-id="@Model.Vehicle?.CustomerId" class="btn btn-secondary">Back to Customer</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Vehicle Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>VIN:</strong> @Model.Vehicle?.VIN</p>
+                    <p><strong>License Plate:</strong> @Model.Vehicle?.LicensePlate</p>
+                    <p><strong>Color:</strong> @Model.Vehicle?.Color</p>
+                    <p><strong>Mileage:</strong> @Model.Vehicle?.Mileage</p>
+                    <p><strong>Estimated Value:</strong> $@Model.Vehicle?.EstimatedValue.ToString("N2")</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Condition & Details</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Condition:</strong></p>
+                    <p>@Model.Vehicle?.Condition</p>
+                    <p><strong>Date Added:</strong> @Model.Vehicle?.CreatedDate.ToString("MM/dd/yyyy")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Title Pawns</h5>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a asp-page="/TitlePawns/Create" asp-route-vehicleId="@Model.Vehicle?.Id" class="btn btn-sm btn-primary">Create Title Pawn</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model.TitlePawns.Count > 0)
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Loan Amount</th>
+                                    <th>Interest Rate</th>
+                                    <th>Status</th>
+                                    <th>Start Date</th>
+                                    <th>Balance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var tp in Model.TitlePawns)
+                                {
+                                    <tr>
+                                        <td>$@tp.LoanAmountApproved.ToString("N2")</td>
+                                        <td>@tp.InterestRate%</td>
+                                        <td><span class="badge bg-info">@tp.Status</span></td>
+                                        <td>@tp.LoanStartDate.ToString("MM/dd/yyyy")</td>
+                                        <td>$@tp.RemainingBalance.ToString("N2")</td>
+                                        <td>
+                                            <a asp-page="/TitlePawns/Details" asp-route-id="@tp.Id" class="btn btn-sm btn-info">View</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No title pawns found. <a asp-page="/TitlePawns/Create" asp-route-vehicleId="@Model.Vehicle?.Id">Create one now</a></p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

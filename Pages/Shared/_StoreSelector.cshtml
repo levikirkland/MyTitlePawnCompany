@@ -1,0 +1,24 @@
+@model (List<MyTitlePawnCompany.Data.Models.Store> Stores, int? SelectedStoreId)
+
+@if (Model.Stores?.Count > 1)
+{
+    <div style="background: #f0f0f0; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
+        <form method="get" style="display: flex; gap: 12px; align-items: center;">
+            <label style="font-weight: 600; margin: 0;">Select Store:</label>
+            <select name="storeId" class="form-control" style="width: 300px;" onchange="this.form.submit()">
+                <option value="">-- Switch Store --</option>
+                @foreach (var store in Model.Stores)
+                {
+                    if (Model.SelectedStoreId == store.Id)
+                    {
+                        <option value="@store.Id" selected>@store.StoreCode - @store.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@store.Id">@store.StoreCode - @store.Name</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+}

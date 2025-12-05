@@ -1,0 +1,71 @@
+@page
+@model MyTitlePawnCompany.Pages.Customers.IndexModel
+@using MyTitlePawnCompany.Data.Models
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h1>Customers</h1>
+        </div>
+        <div class="col-md-6 text-right">
+            <a asp-page="Create" class="btn btn-primary">Add New Customer</a>
+        </div>
+    </div>
+
+    @if (Model.Customers.Count > 0)
+    {
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Pending Loans</th>
+                    <th>Date Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model.Customers)
+                {
+                    <tr>
+                        <td>@customer.FirstName @customer.LastName</td>
+                        <td>@customer.Email</td>
+                        <td>@customer.PhoneNumber</td>
+                        <td>
+                            @{
+                                var pendingCount = customer.Vehicles?.SelectMany(v => v.TitlePawns ?? new List<TitlePawn>())
+                                    .Count(tp => tp.Status == "Pending") ?? 0;
+                            }
+                            @if (pendingCount > 0)
+                            {
+                                <span class="badge bg-warning">
+                                    <a href="/TitlePawns?customerId=@customer.Id&status=Pending" style="color: white; text-decoration: none;">
+                                        @pendingCount Pending
+                                    </a>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">None</span>
+                            }
+                        </td>
+                        <td>@customer.CreatedDate.ToString("MM/dd/yyyy")</td>
+                        <td>
+                            <a asp-page="Details" asp-route-id="@customer.Id" class="btn btn-sm btn-info">View</a>
+                            <a asp-page="Edit" asp-route-id="@customer.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-page="Delete" asp-route-id="@customer.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">No customers found. <a asp-page="Create">Create one now</a></div>
+    }
+</div>

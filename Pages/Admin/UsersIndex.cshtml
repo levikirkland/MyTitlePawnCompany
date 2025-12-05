@@ -1,0 +1,109 @@
+@page
+@model MyTitlePawnCompany.Pages.Admin.UsersIndexModel
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="users-header">
+    <div class="users-container">
+        <h1>User Management</h1>
+    </div>
+</div>
+
+<div class="users-container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-header">
+            <h5>All Users (@Model.Users.Count)</h5>
+            <a href="/Admin/UsersCreate" class="btn btn-success">+ Add User</a>
+        </div>
+        <div class="card-body">
+            @if (Model.Users.Count > 0)
+            {
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Stores</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                var userStores = user.StoreUsers?.ToList() ?? new List<StoreUser>();
+                                <tr>
+                                    <td><strong>@user.FirstName @user.LastName</strong></td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        <span class="badge badge-info">
+                                            @(Model.UserRoles.ContainsKey(user.Id) ? Model.UserRoles[user.Id] : "No Role")
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if (userStores.Count > 0)
+                                        {
+                                            @foreach (var store in userStores.Take(3))
+                                            {
+                                                <span class="store-badge @(store.IsDefault ? "default" : "other")">
+                                                    @store.Store?.StoreCode @if (store.IsDefault) { <text>?</text> }
+                                                </span>
+                                            }
+                                            @if (userStores.Count > 3)
+                                            {
+                                                <span style="color: #999; font-size: 12px;">+@(userStores.Count - 3)</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span style="color: #999; font-size: 12px;">Not assigned</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge @(user.IsActive ? "badge-success" : "badge-danger")">
+                                            @(user.IsActive ? "Active" : "Inactive")
+                                        </span>
+                                    </td>
+                                    <td>@user.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                    <td>
+                                        <a href="/Admin/UsersEdit/@user.Id" class="btn btn-primary">Edit</a>
+                                        <form method="post" asp-page-handler="ResetPassword" asp-route-id="@user.Id" style="display: inline;">
+                                            <button type="submit" class="btn btn-warning" onclick="return confirm('Reset password for @user.Email?')">Reset Pwd</button>
+                                        </form>
+                                        <form method="post" asp-page-handler="Delete" asp-route-id="@user.Id" style="display: inline;">
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Delete @user.Email? This cannot be undone.')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <p>No users found. <a href="/Admin/UsersCreate">Create the first user</a></p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

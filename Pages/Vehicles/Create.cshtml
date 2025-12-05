@@ -1,0 +1,98 @@
+@page "{customerId}"
+@model MyTitlePawnCompany.Pages.Vehicles.CreateModel
+@{
+    ViewData["Title"] = "Create Vehicle";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>Add Vehicle for @Model.Customer?.FirstName @Model.Customer?.LastName</h1>
+
+            <form method="post">
+                <input type="hidden" asp-for="Vehicle.CustomerId" />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Vehicle.VIN" class="form-label">VIN *</label>
+                            <input asp-for="Vehicle.VIN" class="form-control" required />
+                            <span asp-validation-for="Vehicle.VIN" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Vehicle.LicensePlate" class="form-label">License Plate</label>
+                            <input asp-for="Vehicle.LicensePlate" class="form-control" />
+                            <span asp-validation-for="Vehicle.LicensePlate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label asp-for="Vehicle.Year" class="form-label">Year *</label>
+                            <input asp-for="Vehicle.Year" type="number" class="form-control" required />
+                            <span asp-validation-for="Vehicle.Year" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label asp-for="Vehicle.Make" class="form-label">Make *</label>
+                            <input asp-for="Vehicle.Make" class="form-control" required />
+                            <span asp-validation-for="Vehicle.Make" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label asp-for="Vehicle.Model" class="form-label">Model *</label>
+                            <input asp-for="Vehicle.Model" class="form-control" required />
+                            <span asp-validation-for="Vehicle.Model" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Vehicle.Color" class="form-label">Color</label>
+                            <input asp-for="Vehicle.Color" class="form-control" />
+                            <span asp-validation-for="Vehicle.Color" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Vehicle.EstimatedValue" class="form-label">Estimated Value ($) *</label>
+                            <input asp-for="Vehicle.EstimatedValue" type="number" step="0.01" class="form-control" required />
+                            <span asp-validation-for="Vehicle.EstimatedValue" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Vehicle.Mileage" class="form-label">Mileage</label>
+                    <input asp-for="Vehicle.Mileage" class="form-control" />
+                    <span asp-validation-for="Vehicle.Mileage" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Vehicle.Condition" class="form-label">Condition</label>
+                    <textarea asp-for="Vehicle.Condition" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Vehicle.Condition" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Create Vehicle</button>
+                    <a asp-page="/Customers/Details" asp-route-id="@Model.CustomerId" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

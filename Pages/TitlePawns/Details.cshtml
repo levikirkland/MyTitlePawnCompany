@@ -1,0 +1,344 @@
+@page
+@model MyTitlePawnCompany.Pages.TitlePawns.DetailsModel
+@{
+    ViewData["Title"] = "Title Pawn Details";
+}
+
+<div class="page-header">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1>Loan #@Model.TitlePawn?.Id - @Model.TitlePawn?.Vehicle?.Year @Model.TitlePawn?.Vehicle?.Make @Model.TitlePawn?.Vehicle?.Model</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <a asp-page="./Index" class="btn btn-secondary">Back</a>
+                    @if (Model.TitlePawn?.Status == "Pending")
+                    {
+                        <a asp-page="Approve" asp-route-id="@Model.TitlePawn?.Id" class="btn btn-success">Approve</a>
+                    }
+                    @if (Model.TitlePawn?.Status != "Paid Off" && Model.TitlePawn?.Status != "Pending")
+                    {
+                        <a asp-page="./PaymentSchedule" asp-route-id="@Model.TitlePawn?.Id" class="btn btn-primary">Payment Schedule</a>
+                        <a asp-page="./Contract" asp-route-id="@Model.TitlePawn?.Id" class="btn btn-info">Contract</a>
+                        <a asp-page="/Payments/Create" asp-route-titlePawnId="@Model.TitlePawn?.Id" class="btn btn-primary">Record Payment</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    @if (TempData["NewContractCreated"] != null && (bool)TempData["NewContractCreated"])
+    {
+        <div class="alert-success" style="margin-bottom: 16px; border-radius: 6px; padding: 12px 14px;">
+            <strong>? New Contract Generated</strong>
+            <p style="margin: 4px 0 0 0; font-size: 12px;">Contract requires signature before next renewal. 
+                <a asp-page="./Contract" asp-route-id="@Model.TitlePawn?.Id" style="color: inherit; text-decoration: underline; font-weight: 600;">View Contract</a>
+            </p>
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-success" style="margin-bottom: 16px; border-radius: 6px; padding: 12px 14px;">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-error" style="margin-bottom: 16px; border-radius: 6px; padding: 12px 14px;">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (Model.TitlePawn?.Status == "Active" && DateTime.UtcNow > Model.TitlePawn.LoanMaturityDate && Model.AccumulatedLateFees > 0)
+    {
+        <div class="alert-warning" style="margin-bottom: 16px; border-radius: 6px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="flex-grow: 1;">
+                    <strong>?? OVERDUE</strong>
+                    <span style="margin-left: 12px;">@Model.BusinessDaysLate days × $@Model.TitlePawn.GetDailyLateRate().ToString("N2")/day = <strong>$@Model.AccumulatedLateFees.ToString("N2")</strong></span>
+                </div>
+                <form method="post" asp-page-handler="ApplyLateFee" asp-route-id="@Model.TitlePawn.Id" style="margin: 0;">
+                    <button type="submit" class="btn btn-warning">Apply Fees</button>
+                </form>
+            </div>
+        </div>
+    }
+
+    <!-- Compact 4-column grid for main loan information -->
+    <div class="compact-grid">
+        <div class="card">
+            <div class="card-header">
+                <h5>Vehicle</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Year/Make/Model</strong><span>@Model.TitlePawn?.Vehicle?.Year @Model.TitlePawn?.Vehicle?.Make @Model.TitlePawn?.Vehicle?.Model</span></p>
+                <p><strong>VIN</strong><span>@Model.TitlePawn?.Vehicle?.VIN</span></p>
+                <p><strong>License Plate</strong><span>@Model.TitlePawn?.Vehicle?.LicensePlate</span></p>
+                <p><strong>Est. Value</strong><span>$@Model.TitlePawn?.Vehicle?.EstimatedValue.ToString("N2")</span></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Loan Status</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Status</strong><span class="badge bg-@(Model.TitlePawn?.Status == "Active" ? "success" : Model.TitlePawn?.Status == "Paid Off" ? "info" : "warning")">@Model.TitlePawn?.Status</span></p>
+                <p><strong>Requested</strong><span>$@Model.TitlePawn?.LoanAmountRequested.ToString("N2")</span></p>
+                <p><strong>Approved</strong><span>$@Model.TitlePawn?.LoanAmountApproved.ToString("N2")</span></p>
+                <p><strong>Interest Rate</strong><span>@Model.TitlePawn?.InterestRate%/mo</span></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Loan Dates</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Monthly Payment</strong><span>$@Model.TitlePawn?.MonthlyPayment.ToString("N2")</span></p>
+                <p><strong>Interest Charge</strong><span>$@Model.TitlePawn?.TotalInterestCharged.ToString("N2")</span></p>
+                <p><strong>Start Date</strong><span>@Model.TitlePawn?.LoanStartDate.ToString("MM/dd/yy")</span></p>
+                <p><strong>Due Date</strong><span>@Model.TitlePawn?.LoanMaturityDate.ToString("MM/dd/yy")</span></p>
+                @if (Model.TitlePawn?.LoanPaidOffDate.HasValue == true)
+                {
+                    <p><strong>Paid Off</strong><span>@Model.TitlePawn.LoanPaidOffDate.Value.ToString("MM/dd/yy")</span></p>
+                }
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Balance</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Remaining</strong><span class="badge" style="font-size: 14px; background: #1f2937; color: white; padding: 6px 12px;">$@Model.TitlePawn?.RemainingBalance.ToString("N2")</span></p>
+                <p><strong>Principal</strong><span>$@Model.TitlePawn?.LoanAmountApproved.ToString("N2")</span></p>
+                <p><strong>Title & Key Fee</strong><span>$@Model.TitlePawn?.TitleAndKeyFee.ToString("N2")</span></p>
+                <p><strong>Additional Fees</strong><span>$@Model.TitlePawn?.AdditionalFees.ToString("N2")</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contract Status Compact Card -->
+    @if (Model.TitlePawn?.Status != "Paid Off")
+    {
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Contract Status</h5>
+                        <div style="display: flex; gap: 6px;">
+                            <a asp-page="./Contract" asp-route-id="@Model.TitlePawn?.Id" class="btn btn-info">View Contract</a>
+                            @if (Model.TitlePawn?.ContractSigned == false && Model.TitlePawn?.Status == "Active")
+                            {
+                                <form method="post" asp-page-handler="MarkContractSigned" asp-route-id="@Model.TitlePawn?.Id" 
+                                      onsubmit="return confirm('Confirm that the borrower has signed the contract?')" style="margin: 0;">
+                                    <button type="submit" class="btn btn-success">? Mark Signed</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 10px 16px;">
+                        @if (Model.TitlePawn?.ContractSigned == true)
+                        {
+                            <p style="margin: 0;">
+                                <strong>Status</strong>
+                                <span>
+                                    <span class="badge" style="background: #4b5563; color: white;">? Signed</span>
+                                    <span style="margin-left: 12px; color: #6b7280;">on @Model.TitlePawn?.ContractSignedDate?.ToString("MM/dd/yy h:mm tt")</span>
+                                </span>
+                            </p>
+                        }
+                        else if (Model.TitlePawn?.Status == "Pending")
+                        {
+                            <p style="margin: 0;">
+                                <strong>Status</strong>
+                                <span><span class="badge bg-warning">Pending Approval</span> <span style="color: #6b7280; margin-left: 8px;">Contract required during approval</span></span>
+                            </p>
+                        }
+                        else
+                        {
+                            <p style="margin: 0;">
+                                <strong>Status</strong>
+                                <span><span class="badge bg-warning">?? Awaiting Signature</span> <span style="color: #92400e; margin-left: 8px;">Required before renewal</span></span>
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Fees & Charges -->
+    @if (Model.TitlePawn?.Status == "Active")
+    {
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Fees & Charges</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Fees.Count > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var fee in Model.Fees)
+                                    {
+                                        <tr style="@(fee.IsWaived ? "opacity: 0.5; text-decoration: line-through;" : "")">
+                                            <td>@fee.CreatedDate.ToString("MM/dd/yy")</td>
+                                            <td><strong>@fee.FeeType</strong></td>
+                                            <td>$@fee.Amount.ToString("N2")</td>
+                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">@fee.Description</td>
+                                            <td>
+                                                @if (fee.IsWaived)
+                                                {
+                                                    <span class="badge" style="background: #6b7280; color: white;">Waived</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">Active</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!fee.IsWaived && User.IsInRole("CompanyAdmin"))
+                                                {
+                                                    <button type="button" class="btn" style="background: #6b7280; color: white; padding: 4px 10px; font-size: 11px;" 
+                                                            onclick="waiveFee(@fee.Id, '@fee.FeeType')">Waive</button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p style="color: #9ca3af; margin: 0; font-size: 12px;">No fees charged</p>
+                        }
+
+                        <hr style="margin: 14px 0; border-color: #e5e7eb;" />
+
+                        <form method="post" asp-page-handler="AddFee" asp-route-id="@Model.TitlePawn.Id">
+                            <div class="row g-2">
+                                <div class="col-md-3">
+                                    <label>Fee Type *</label>
+                                    <select asp-for="FeeType" class="form-control" required>
+                                        <option value="">-- Select --</option>
+                                        <option value="Late Fee">Late Fee</option>
+                                        <option value="Towing">Towing</option>
+                                        <option value="Repossession">Repossession</option>
+                                        <option value="Key Replacement">Key Replacement</option>
+                                        <option value="Storage">Storage</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Amount *</label>
+                                    <input type="number" asp-for="FeeAmount" step="0.01" min="0" class="form-control" required />
+                                </div>
+                                <div class="col-md-5">
+                                    <label>Description</label>
+                                    <input type="text" asp-for="FeeDescription" class="form-control" />
+                                </div>
+                                <div class="col-md-2" style="display: flex; align-items: flex-end;">
+                                    <button type="submit" class="btn btn-success" style="width: 100%;">Add Fee</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Payment History -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Payment History</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Payments.Count > 0)
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Method</th>
+                                    <th>Balance After</th>
+                                    <th>Late</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var payment in Model.Payments.OrderByDescending(p => p.PaymentDate).Take(10))
+                                {
+                                    <tr>
+                                        <td>@payment.PaymentDate.ToString("MM/dd/yy")</td>
+                                        <td><strong>$@payment.Amount.ToString("N2")</strong></td>
+                                        <td>@payment.PaymentType</td>
+                                        <td>@payment.PaymentMethod</td>
+                                        <td>$@payment.LoanBalanceAfterPayment.ToString("N2")</td>
+                                        <td>@(payment.IsLatePayment ? "<span class='badge bg-warning'>Yes</span>" : "No")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @if (Model.Payments.Count > 10)
+                        {
+                            <p style="margin: 8px 0 0 0; font-size: 11px; color: #6b7280; text-align: center;">Showing 10 most recent payments of @Model.Payments.Count total</p>
+                        }
+                    }
+                    else
+                    {
+                        <p style="color: #9ca3af; margin: 0; font-size: 12px;">No payments recorded</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function waiveFee(feeId, feeType) {
+    const reason = prompt(`Enter reason for waiving ${feeType}:`);
+    if (reason && reason.trim()) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '?handler=WaiveFee&id=@Model.TitlePawn?.Id&feeId=' + feeId;
+        
+        const reasonInput = document.createElement('input');
+        reasonInput.type = 'hidden';
+        reasonInput.name = 'waiveReason';
+        reasonInput.value = reason;
+        form.appendChild(reasonInput);
+
+        const tokenInput = document.createElement('input');
+        tokenInput.type = 'hidden';
+        tokenInput.name = '__RequestVerificationToken';
+        tokenInput.value = document.querySelector('input[name="__RequestVerificationToken"]').value;
+        form.appendChild(tokenInput);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>

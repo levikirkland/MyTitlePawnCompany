@@ -1,0 +1,220 @@
+@page
+@model MyTitlePawnCompany.Pages.Vendors.IndexModel
+@{
+    ViewData["Title"] = "Vendors";
+}
+
+<style>
+    .vendors-header {
+        background: #1a1a1a;
+        color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+    }
+
+    .vendors-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: inline-block;
+    }
+
+    .btn-success {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #38a169;
+        color: white;
+    }
+
+    .btn-primary {
+        background: #3b82f6;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #2563eb;
+        color: white;
+    }
+
+    .btn-warning {
+        background: #ed8936;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: #dd6b20;
+    }
+
+    .btn-danger {
+        background: #f56565;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #e53e3e;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 16px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header h5 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+    .table thead {
+        background: #f8f9fa;
+    }
+
+    .table th {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-bottom: 2px solid #e5e5e5;
+        text-align: left;
+    }
+
+    .table td {
+        padding: 12px;
+        font-size: 13px;
+        border-bottom: 1px solid #e5e5e5;
+        vertical-align: middle;
+    }
+
+    .table tbody tr:hover {
+        background: #f8f9fa;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-info {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+
+    .container-fluid {
+        max-width: 1280px;
+        padding: 0 24px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 6px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+    }
+</style>
+
+<div class="vendors-header">
+    <div class="container-fluid">
+        <h1>Vendors</h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h5>All Vendors (@Model.Vendors.Count)</h5>
+            <a asp-page="Create" class="btn btn-success">+ Add Vendor</a>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            @if (Model.Vendors.Count > 0)
+            {
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Contact Person</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var vendor in Model.Vendors)
+                            {
+                                <tr>
+                                    <td><strong>@vendor.Name</strong></td>
+                                    <td><span class="badge badge-info">@vendor.VendorType</span></td>
+                                    <td>@vendor.Phone</td>
+                                    <td>@vendor.Email</td>
+                                    <td>@vendor.ContactPerson</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a asp-page="Create" asp-route-id="@vendor.Id" class="btn btn-sm btn-primary">Edit</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <p>No vendors configured yet.</p>
+                    <a asp-page="Create" class="btn btn-success">+ Add Your First Vendor</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
