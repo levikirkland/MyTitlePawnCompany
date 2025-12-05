@@ -409,3 +409,5 @@ C:\Users\Andy\source\repos\MyTitlePawnCompany\obj\Debug\net10.0\MyTitlePawnCompa
 C:\Users\Andy\source\repos\MyTitlePawnCompany\obj\Debug\net10.0\ref\MyTitlePawnCompany.dll
 C:\Users\Andy\source\repos\MyTitlePawnCompany\obj\Debug\net10.0\compressed\nhl8xj491a-{0}-pj9fspiiqf-pj9fspiiqf.gz
 C:\Users\Andy\source\repos\MyTitlePawnCompany\obj\Debug\net10.0\compressed\o04h8gy1ic-{0}-d23vzzccur-d23vzzccur.gz
+C:\Users\Andy\source\repos\MyTitlePawnCompany\obj\Debug\net10.0\MyTitlePawnCompany.sourcelink.json
+C:\Users\Andy\source\repos\MyTitlePawnCompany\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

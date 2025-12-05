@@ -331,3 +331,4 @@ C:\Users\Andy\source\repos\MyTitlePawnCompany\MyTitlePawnCompany.Tests\obj\Debug
 C:\Users\Andy\source\repos\MyTitlePawnCompany\MyTitlePawnCompany.Tests\obj\Debug\net10.0\MyTitlePawnCompany.Tests.pdb
 C:\Users\Andy\source\repos\MyTitlePawnCompany\MyTitlePawnCompany.Tests\obj\Debug\net10.0\MyTitlePawnCompany.Tests.genruntimeconfig.cache
 C:\Users\Andy\source\repos\MyTitlePawnCompany\MyTitlePawnCompany.Tests\obj\Debug\net10.0\ref\MyTitlePawnCompany.Tests.dll
+C:\Users\Andy\source\repos\MyTitlePawnCompany\MyTitlePawnCompany.Tests\obj\Debug\net10.0\MyTitlePawnCompany.Tests.sourcelink.json

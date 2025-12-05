@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyTitlePawnCompany")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+21334c7b3f30ef75ad423bb3144eaf02e5e4e1b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyTitlePawnCompany")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyTitlePawnCompany")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
