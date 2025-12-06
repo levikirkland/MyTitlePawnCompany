@@ -31,8 +31,19 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Run tests
-        run: dotnet test --no-restore --verbosity normal
+      - name: Run unit tests
+        run: |
+          set -e
+          echo "Searching for test projects..."
+          TEST_PROJECTS=$(find . -type f -name "*Tests.csproj" -print)
+          if [ -z "$TEST_PROJECTS" ]; then
+            echo "No test projects found. Skipping tests."
+            exit 0
+          fi
+          for proj in $TEST_PROJECTS; do
+            echo "Running tests for $proj"
+            dotnet test "$proj" --configuration Release --no-build --verbosity normal
+          done
 
       - name: Publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
