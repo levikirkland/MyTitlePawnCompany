@@ -35,15 +35,15 @@ jobs:
         run: |
           set -e
           echo "Searching for test projects..."
-          TEST_PROJECTS=$(find . -type f -name "*Tests.csproj" -print)
-          if [ -z "$TEST_PROJECTS" ]; then
-            echo "No test projects found. Skipping tests."
-            exit 0
-          fi
-          for proj in $TEST_PROJECTS; do
+          found=0
+          while IFS= read -r -d '' proj; do
             echo "Running tests for $proj"
             dotnet test "$proj" --configuration Release --no-build --verbosity normal
-          done
+            found=1
+          done < <(find . -type f -name "*Tests.csproj" -print0)
+          if [ "$found" -eq 0 ]; then
+            echo "No test projects found. Skipping tests."
+          fi
 
       - name: Publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
