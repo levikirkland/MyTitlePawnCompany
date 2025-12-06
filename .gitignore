@@ -7,6 +7,38 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+
+
+# Build artifacts
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+
+# Visual Studio files
+*.user
+*.suo
+*.cache
+*.pdb
+*.dbmdl
+*.bak
+*.log
+
+# Test projects (exclude entire folders named "Test" or ending with .Tests)
+[Tt]est*/
+*.Tests/
+*.Tests.*
+
+# NuGet packages
+*.nupkg
+packages/
+*.snupkg
+
+# Other common ignores
+*.tmp
+*.swp
+*.DS_Store
+Thumbs.db
 # User-specific files
 *.rsuser
 *.suo

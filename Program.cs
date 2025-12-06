@@ -53,27 +53,32 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Apply migrations and seed data
-using (var scope = app.Services.CreateScope())
+// Apply migrations and seed data - ONLY IN DEVELOPMENT
+// In production, migrations should already be applied to the database
+if (app.Environment.IsDevelopment())
 {
-    try
+    using (var scope = app.Services.CreateScope())
     {
-        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        try
+        {
+            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        Console.WriteLine("?? Applying migrations...");
-        db.Database.Migrate();
-        Console.WriteLine("? Migrations applied");
+            Console.WriteLine("?? Applying migrations...");
+            db.Database.Migrate();
+            Console.WriteLine("? Migrations applied");
 
-        Console.WriteLine("?? Starting database seeding...");
-        await DatabaseSeedService.SeedInitialDataAsync(db, userManager, roleManager);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"? Error during startup: {ex.Message}");
-        Console.WriteLine($"? Stack trace: {ex.StackTrace}");
-        throw;
+            Console.WriteLine("?? Starting database seeding...");
+            await DatabaseSeedService.SeedInitialDataAsync(db, userManager, roleManager);
+            Console.WriteLine("? Database seeding completed");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"? Error during startup: {ex.Message}");
+            Console.WriteLine($"?? Stack trace: {ex.StackTrace}");
+            throw;
+        }
     }
 }
 
